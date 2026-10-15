@@ -75,7 +75,7 @@
 **文件：**修改 `project.godot`；创建 `scenes/player/Player.tscn`、`scripts/player/Player.gd`
 
 - 在 Input Map 中定义 `move_left/right/up/down`、`fire`、`dodge`、`restart`。
-- 输入分别绑定 A/D/W/S、鼠标左键、空格。
+- `move_*` 分别绑定 A/D/W/S，`fire` 绑定鼠标左键，`dodge` 绑定空格，`restart` 绑定 R。
 - 玩家场景使用 `CharacterBody2D` 根节点、碰撞形状和一个高对比度占位绘图；基础生命值为 5。
 - 使用归一化的 `Input.get_vector()` 结果移动；角色速度为可调导出参数，首版取 `240.0` 像素/秒。
 - 玩家朝向鼠标位置；移动不能因斜向输入超过轴向速度。
@@ -106,13 +106,13 @@
 
 ### Task 6：创建基础房间与近战敌人
 
-**文件：**创建 `scenes/enemies/Enemy.tscn`、`scripts/enemies/Enemy.gd`、`scenes/rooms/Room.tscn`、`scripts/rooms/Room.gd`
+**文件：**创建 `scenes/enemies/Enemy.tscn`、`scripts/enemies/Enemy.gd`、`scenes/rooms/Room.tscn`、`scripts/rooms/Room.gd`；修改 `scenes/main/Main.tscn`、`scripts/main/Main.gd`
 
 - 房间使用静态边界和固定出生点；不使用 TileMap 或程序生成。
 - 敌人首版为近战追击型，使用 `CharacterBody2D`，生命值 4 点，朝玩家移动并在近身时造成 1 点伤害；攻击间隔首值 1 秒。
 - 敌人具备可见生命/受击反馈、生命值和死亡信号。
 - `Room.gd` 追踪本房间敌人，敌人全部死亡后发出一次 `room_cleared`。
-- 玩家死亡时显示临时失败文字并提供重开入口（先用键盘 R，完整按钮由 HUD 任务补齐）。
+- 主流程连接玩家死亡信号，显示临时失败文字；按 R 调用重开（完整按钮由 HUD 任务补齐）。
 
 **验收：**一间房可完整运行：玩家能攻击并击败敌人，也会受伤、失败和重开；清房信号只触发一次。
 
@@ -132,7 +132,7 @@
 
 **文件：**修改 `Main.tscn`、`Main.gd`、`Room.tscn`、`Room.gd`
 
-- 由 `Main.gd` 按序装载三间固定房间内容；每间房清空后进入奖励阶段。
+- 由 `Main.gd` 按序装载三间固定房间内容：第一间 2 个近战敌人、第二间 3 个、第三间 4 个；每间房清空后进入奖励阶段。
 - 房间切换前清除旧敌人、旧投射物并重置出生点；保留玩家生命和已选道具。
 - 在 HUD 显示当前序号（1/3、2/3、3/3）。
 - 第三间普通房清空并完成奖励选择后，显示临时原型胜利结算；阶段 3 再把该出口改为 Boss 房。
@@ -143,7 +143,7 @@
 
 **文件：**创建 `resources/items/ItemData.gd` 与 8 个道具 Resource；修改 `Player.gd`、`Projectile.gd`
 
-- `ItemData` 只存 `id`、显示名称、说明、效果类型和数值参数。
+- `ItemData` 只存 `id: StringName`、`display_name: String`、`description: String`、`effect_type: EffectType`、`value_primary: float`、`value_secondary: float`。`EffectType` 固定为 `TRIPLE_SHOT`、`PIERCE`、`RICOCHET`、`FIRE_RATE`、`DAMAGE_SPEED`、`DODGE_COOLDOWN`、`MAX_HEALTH_HEAL`、`DEATH_EXPLOSION`。
 - 建立 8 件局内道具：三向棱镜（每次射击改为 -12°、0°、+12° 三发，每发伤害降为 0.7）；穿透针（每枚投射物可多穿透 1 个敌人）；弹射芯片（命中后弹向 180 像素内最近的另一名敌人一次）；过载电容（射速提升 25%）；重型弹头（伤害提升 50%、弹速降低 20%）；相位核心（闪避冷却缩短 20%）；护盾电池（最大生命 +1，选择时恢复 1 点生命）；余烬回路（击杀时以 48 像素半径造成 1 点范围伤害）。
 - `Player.apply_item(item: ItemData) -> void` 按明确效果类型更新本局属性；禁止道具运行任意 GDScript 字符串。
 - 至少三件武器道具改变发射/命中行为，而非纯数值加成。
