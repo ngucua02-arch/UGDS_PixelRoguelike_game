@@ -17,6 +17,103 @@ z_index = -10
 color = Color(0.055, 0.065, 0.12, 1)
 polygon = PackedVector2Array(0, 0, 1152, 0, 1152, 648, 0, 648)
 
+[node name="ArenaInset" type="Polygon2D" parent="."]
+z_index = -9
+color = Color(0.045, 0.055, 0.105, 1)
+polygon = PackedVector2Array(34, 34, 1118, 34, 1118, 614, 34, 614)
+
+[node name="ArenaFrame" type="Line2D" parent="."]
+z_index = -8
+width = 2.0
+default_color = Color(0.12, 0.25, 0.34, 0.85)
+closed = true
+antialiased = false
+points = PackedVector2Array(34, 34, 1118, 34, 1118, 614, 34, 614)
+
+[node name="GridV1" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(160, 36, 160, 612)
+
+[node name="GridV2" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(288, 36, 288, 612)
+
+[node name="GridV3" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(416, 36, 416, 612)
+
+[node name="GridV4" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(544, 36, 544, 612)
+
+[node name="GridV5" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(672, 36, 672, 612)
+
+[node name="GridV6" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(800, 36, 800, 612)
+
+[node name="GridV7" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(928, 36, 928, 612)
+
+[node name="GridV8" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(1056, 36, 1056, 612)
+
+[node name="GridH1" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(36, 164, 1116, 164)
+
+[node name="GridH2" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(36, 292, 1116, 292)
+
+[node name="GridH3" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(36, 420, 1116, 420)
+
+[node name="GridH4" type="Line2D" parent="."]
+z_index = -8
+width = 1.0
+default_color = Color(0.2, 0.3, 0.42, 0.08)
+antialiased = false
+points = PackedVector2Array(36, 548, 1116, 548)
+
 [node name="TopWall" type="StaticBody2D" parent="."]
 position = Vector2(576, 16)
 collision_layer = 1

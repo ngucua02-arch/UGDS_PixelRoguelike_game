@@ -9,6 +9,14 @@ config/name="Neon Roguelike Prototype"
 config/description="A top-down pixel-art roguelike prototype focused on room combat and item builds."
 run/main_scene="res://scenes/main/Main.tscn"
 
+[display]
+window/size/viewport_width=1152
+window/size/viewport_height=648
+window/size/window_width_override=1152
+window/size/window_height_override=648
+window/stretch/mode="canvas_items"
+window/stretch/scale_mode="integer"
+
 [input]
 
 move_left={
@@ -45,4 +53,4 @@ restart={
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/default_filters/use_nearest_mipmap_filter=false
-textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_filter=1

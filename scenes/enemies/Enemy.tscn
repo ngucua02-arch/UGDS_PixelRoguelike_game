@@ -18,16 +18,31 @@ shape = SubResource("CircleShape2D_enemy")
 
 [node name="MeleeBody" type="Polygon2D" parent="."]
 color = Color(1, 0.22, 0.38, 1)
-polygon = PackedVector2Array(0, -14, 12, -5, 12, 7, 0, 14, -12, 7, -12, -5)
+polygon = PackedVector2Array(0, -16, 8, -9, 15, -7, 11, 1, 14, 9, 4, 8, 0, 16, -4, 8, -14, 9, -11, 1, -15, -7, -8, -9)
+
+[node name="MeleeOutline" type="Line2D" parent="."]
+z_index = 1
+width = 2.0
+default_color = Color(0.16, 0.015, 0.055, 1)
+closed = true
+points = PackedVector2Array(0, -16, 8, -9, 15, -7, 11, 1, 14, 9, 4, 8, 0, 16, -4, 8, -14, 9, -11, 1, -15, -7, -8, -9)
 
 [node name="RangedBody" type="Polygon2D" parent="."]
 visible = false
 color = Color(0.2, 0.96, 1, 1)
 polygon = PackedVector2Array(0, -15, 8, -8, 15, 0, 8, 8, 0, 15, -8, 8, -15, 0, -8, -8)
 
+[node name="RangedOutline" type="Line2D" parent="."]
+z_index = 1
+width = 2.0
+default_color = Color(0.01, 0.09, 0.12, 1)
+closed = true
+points = PackedVector2Array(0, -15, 8, -8, 15, 0, 8, 8, 0, 15, -8, 8, -15, 0, -8, -8)
+
 [node name="AttackTelegraph" type="Line2D" parent="."]
 visible = false
-z_index = -1
+z_index = 3
+antialiased = false
 width = 3.0
 default_color = Color(1, 0.68, 0.18, 0.85)
 points = PackedVector2Array(0, 0, 360, 0)

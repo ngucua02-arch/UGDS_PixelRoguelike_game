@@ -20,6 +20,7 @@ var health: int = 5
 var fire_cooldown: float = 0.0
 var dodge_time_left: float = 0.0
 var dodge_cooldown_left: float = 0.0
+var hit_flash_left: float = 0.0
 var dodge_direction: Vector2 = Vector2.ZERO
 var is_dead: bool = false
 var damage_enabled: bool = true
@@ -43,6 +44,10 @@ func _physics_process(delta: float) -> void:
 	if dodge_time_left > 0.0:
 		dodge_time_left = maxf(0.0, dodge_time_left - delta)
 		if dodge_time_left == 0.0:
+			modulate = Color.WHITE
+	if hit_flash_left > 0.0:
+		hit_flash_left = maxf(0.0, hit_flash_left - delta)
+		if hit_flash_left == 0.0:
 			modulate = Color.WHITE
 
 	var movement := Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -78,6 +83,8 @@ func take_damage(amount: float) -> void:
 		return
 
 	health = maxi(0, health - maxi(1, roundi(amount)))
+	modulate = Color.WHITE
+	hit_flash_left = 0.12
 	health_changed.emit(health, max_health)
 	if health == 0:
 		is_dead = true
