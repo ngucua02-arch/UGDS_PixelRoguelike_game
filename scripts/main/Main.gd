@@ -19,7 +19,6 @@ const ITEM_POOL: Array[ItemData] = [
 
 @onready var health_label: Label = $Overlay/HealthLabel
 @onready var room_label: Label = $Overlay/RoomLabel
-@onready var result_label: Label = $Overlay/ResultLabel
 @onready var boss_health_bar: ProgressBar = $Overlay/BossHealthBar
 @onready var boss_health_label: Label = $Overlay/BossHealthLabel
 
@@ -40,7 +39,9 @@ func _ready() -> void:
 	add_child(player)
 	hud = HUD_SCENE.instantiate()
 	hud.item_chosen.connect(_on_item_chosen)
+	hud.restart_requested.connect(_restart_run)
 	add_child(hud)
+	hud.call("set_item_summary", selected_items)
 	_start_room(0)
 
 
@@ -59,15 +60,13 @@ func _on_player_died() -> void:
 	run_ended = true
 	run_state = &"defeat"
 	_stop_combat()
-	result_label.text = "你被击败了\n按 R 重新开始"
-	result_label.add_theme_color_override("font_color", Color(1.0, 0.35, 0.48, 1.0))
+	hud.call("present_result", "本局失败\n玩家已被击败", Color(1.0, 0.35, 0.48, 1.0))
 
 
 func _on_room_cleared() -> void:
 	if run_ended or run_state != &"combat":
 		return
 	run_state = &"reward"
-	result_label.text = ""
 	player.set("damage_enabled", false)
 	_clear_player_projectiles()
 	player.process_mode = Node.PROCESS_MODE_DISABLED
@@ -100,6 +99,7 @@ func _on_item_chosen(item_index: int) -> void:
 	var selected_item := reward_items[item_index]
 	selected_items.append(selected_item)
 	player.call("apply_item", selected_item)
+	hud.call("set_item_summary", selected_items)
 	reward_items.clear()
 	if current_room_index == ROOM_MELEE_COUNTS.size() - 1:
 		hud.call("hide_rewards")
@@ -114,7 +114,6 @@ func _on_item_chosen(item_index: int) -> void:
 func _start_room(room_index: int) -> void:
 	current_room_index = room_index
 	run_state = &"combat"
-	result_label.text = ""
 	room_label.text = "房间：%d / %d" % [current_room_index + 1, ROOM_MELEE_COUNTS.size()]
 	_clear_player_projectiles()
 	if is_instance_valid(room):
@@ -132,7 +131,6 @@ func _start_room(room_index: int) -> void:
 func _start_boss_room() -> void:
 	current_room_index = ROOM_MELEE_COUNTS.size()
 	run_state = &"boss"
-	result_label.text = ""
 	room_label.text = "最终战：霓虹守卫"
 	_clear_player_projectiles()
 	if is_instance_valid(room):
@@ -153,14 +151,14 @@ func _start_boss_room() -> void:
 	boss_health_bar.max_value = 40.0
 	boss_health_bar.value = 40.0
 	boss_health_bar.show()
-	boss_health_label.text = "Boss：40 / 40"
+	boss_health_label.text = "首领生命：40 / 40"
 	boss_health_label.show()
 
 
 func _on_boss_health_changed(current: int, maximum: int) -> void:
 	boss_health_bar.max_value = maximum
 	boss_health_bar.value = current
-	boss_health_label.text = "Boss：%d / %d" % [current, maximum]
+	boss_health_label.text = "首领生命：%d / %d" % [current, maximum]
 
 
 func _on_boss_died() -> void:
@@ -169,8 +167,7 @@ func _on_boss_died() -> void:
 	run_ended = true
 	run_state = &"victory"
 	_stop_combat()
-	result_label.text = "Boss 已击败！\n按 R 重新开始"
-	result_label.add_theme_color_override("font_color", Color(0.35, 1.0, 0.85, 1.0))
+	hud.call("present_result", "胜利！\n霓虹守卫已被击败", Color(0.35, 1.0, 0.85, 1.0))
 	boss_health_bar.hide()
 	boss_health_label.hide()
 
@@ -194,3 +191,7 @@ func _clear_player_projectiles() -> void:
 			child.set_deferred("monitoring", false)
 			child.set_deferred("monitorable", false)
 			child.queue_free()
+
+
+func _restart_run() -> void:
+	get_tree().reload_current_scene()
