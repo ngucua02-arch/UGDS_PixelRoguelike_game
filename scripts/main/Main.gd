@@ -2,8 +2,18 @@ extends Node2D
 
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player/Player.tscn")
 const ROOM_SCENE: PackedScene = preload("res://scenes/rooms/Room.tscn")
+const HUD_SCENE: PackedScene = preload("res://scenes/ui/HUD.tscn")
 const ROOM_ENEMY_COUNTS: Array[int] = [2, 3, 4]
-const REWARD_PLACEHOLDER_SECONDS: float = 1.25
+const ITEM_POOL: Array[ItemData] = [
+	preload("res://resources/items/triple_shot.tres"),
+	preload("res://resources/items/pierce.tres"),
+	preload("res://resources/items/ricochet.tres"),
+	preload("res://resources/items/fire_rate.tres"),
+	preload("res://resources/items/damage_speed.tres"),
+	preload("res://resources/items/dodge_cooldown.tres"),
+	preload("res://resources/items/max_health_heal.tres"),
+	preload("res://resources/items/death_explosion.tres"),
+]
 
 @onready var health_label: Label = $Overlay/HealthLabel
 @onready var room_label: Label = $Overlay/RoomLabel
@@ -11,8 +21,10 @@ const REWARD_PLACEHOLDER_SECONDS: float = 1.25
 
 var player: CharacterBody2D
 var room: Node2D
+var hud: CanvasLayer
 var current_room_index: int = 0
-var selected_items: Array = []
+var selected_items: Array[ItemData] = []
+var reward_items: Array[ItemData] = []
 var run_state: StringName = &"combat"
 var run_ended: bool = false
 
@@ -22,6 +34,9 @@ func _ready() -> void:
 	player.health_changed.connect(_on_player_health_changed)
 	player.died.connect(_on_player_died)
 	add_child(player)
+	hud = HUD_SCENE.instantiate()
+	hud.item_chosen.connect(_on_item_chosen)
+	add_child(hud)
 	_start_room(0)
 
 
@@ -47,19 +62,47 @@ func _on_room_cleared() -> void:
 	if run_ended or run_state != &"combat":
 		return
 	run_state = &"reward"
-	result_label.text = "房间已清空\n奖励阶段（占位）"
-	_advance_after_reward_placeholder()
+	result_label.text = ""
+	_clear_player_projectiles()
+	player.process_mode = Node.PROCESS_MODE_DISABLED
+	if is_instance_valid(room):
+		room.process_mode = Node.PROCESS_MODE_DISABLED
+	reward_items = _draw_reward_items()
+	hud.call("present_rewards", reward_items)
 
 
-func _advance_after_reward_placeholder() -> void:
-	await get_tree().create_timer(REWARD_PLACEHOLDER_SECONDS).timeout
-	if run_ended or run_state != &"reward":
+func _draw_reward_items() -> Array[ItemData]:
+	var available_items: Array[ItemData] = []
+	for item in ITEM_POOL:
+		var already_owned := false
+		for selected_item in selected_items:
+			if selected_item.id == item.id:
+				already_owned = true
+				break
+		if not already_owned:
+			available_items.append(item)
+	available_items.shuffle()
+	var choices: Array[ItemData] = []
+	for index in range(mini(3, available_items.size())):
+		choices.append(available_items[index])
+	return choices
+
+
+func _on_item_chosen(item_index: int) -> void:
+	if run_ended or run_state != &"reward" or item_index < 0 or item_index >= reward_items.size():
 		return
+	var selected_item := reward_items[item_index]
+	selected_items.append(selected_item)
+	player.call("apply_item", selected_item)
+	reward_items.clear()
 	if current_room_index == ROOM_ENEMY_COUNTS.size() - 1:
 		run_state = &"victory"
 		run_ended = true
-		result_label.text = "原型流程胜利！\n奖励选择接入后，将在选择奖励后结算"
+		result_label.text = "原型流程胜利！\n按 R 重新开始"
+		result_label.add_theme_color_override("font_color", Color(0.35, 1.0, 0.85, 1.0))
 		return
+	hud.call("hide_rewards")
+	player.process_mode = Node.PROCESS_MODE_INHERIT
 	_start_room(current_room_index + 1)
 
 
@@ -82,4 +125,6 @@ func _start_room(room_index: int) -> void:
 func _clear_player_projectiles() -> void:
 	for child in get_children():
 		if child is Area2D and child.has_method("launch"):
+			child.set_deferred("monitoring", false)
+			child.set_deferred("monitorable", false)
 			child.queue_free()
