@@ -10,7 +10,7 @@
 ## 环境与证据边界
 
 - 引擎：Godot 4.7.2 stable
-- 项目：`G:\Codex\NeonRoguelike\.worktrees\first-playable\project.godot`
+- 项目：`G:\Codex\NeonRoguelike\project.godot`（已整合到主分支 `master`）
 - 可执行文件：`G:\Codex\tools\Godot-4.7.2\Godot_v4.7.2-stable_win64.exe`
 - 最近记录的 headless 编辑器扫描与主场景短时运行均退出码 0；这些证据只说明技术场景可扫描和启动。
 - 未受控操作游戏，未完成从新开局至胜负结算再重开的完整流程。没有完整局时长、实际失败原因、Boss 应对或重开观察可供记录。

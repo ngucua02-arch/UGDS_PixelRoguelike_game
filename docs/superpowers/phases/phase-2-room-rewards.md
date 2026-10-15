@@ -11,7 +11,7 @@
 ## 环境与证据边界
 
 - 引擎：Godot 4.7.2 stable
-- 项目：`G:\Codex\NeonRoguelike\.worktrees\first-playable\project.godot`
+- 项目：`G:\Codex\NeonRoguelike\project.godot`（已整合到主分支 `master`）
 - 可执行文件：`G:\Codex\tools\Godot-4.7.2\Godot_v4.7.2-stable_win64.exe`
 - 最近已记录的技术核验：Task 14 编辑器扫描及 180 帧主场景启动退出码均为 0；Task 15 编辑器扫描及 120 帧主场景短运行退出码均为 0，`git diff --check` 通过。
 - 以上是项目加载 / 启动检查，不包含人为控制角色或选择奖励的证据。未进行三房完整键鼠试玩，也没有可记录的游玩次数、耗时、策略变化或观察结果。

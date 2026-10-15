@@ -18,7 +18,7 @@ UGDS 版本：ugds-v1.0
 
 - Task 14：加入中文胜负结算、道具效果摘要及鼠标按钮 / Enter / R 重开路径；独立代码审查已完成。
 - Task 15：整理像素霓虹占位视觉、阵营颜色和攻击预警可读性；独立代码审查已完成。
-- Task 15 后修正玩家受伤闪光；当前工作树 HEAD 为 `7a67a11`。
+- Task 15 后修正玩家受伤闪光；已整合至主分支 `master`（整合前 HEAD：`2665ee7`），功能 worktree 保留。
 - Godot 4.7.2 stable 编辑器扫描及主场景短时运行均有成功记录；窗口静态截图仅用于检查当前渲染帧。
 
 ## 当前状态与 Gate
@@ -40,8 +40,8 @@ UGDS 版本：ugds-v1.0
 ## 已知信息
 
 - Godot 便携版：`G:\Codex\tools\Godot-4.7.2\Godot_v4.7.2-stable_win64.exe`
-- 当前 Godot 项目：`G:\Codex\NeonRoguelike\.worktrees\first-playable\project.godot`
-- 当前分支：`feature/first-playable`；工作树 HEAD：`7a67a11`（短哈希，后续提交会变化）。
+- 当前 Godot 项目：`G:\Codex\NeonRoguelike\project.godot`
+- 当前分支：`master`；本状态文档更新前 HEAD：`2665ee7`（本次更新提交会推进 HEAD）。
 - 项目暂定名；原型目标时长及目标玩家画像仍待确认。
 
 ## 暂不开发
@@ -50,12 +50,12 @@ UGDS 版本：ugds-v1.0
 
 ## 下一步
 
-请在 Godot 中打开上方当前项目路径，手动试玩完整流程：WASD 移动、鼠标瞄准、按住鼠标左键射击、空格闪避；每间普通房清空后用鼠标选择一件奖励；挑战 Boss 后从胜负结算页点击重开或按 Enter，也可用 R 快速重开。记录阶段二三的实际观察，并据此更新 Gameplay Gate；没有完成试玩前不创建 final-playtest 或 Freeze 记录。
+请用 Godot 打开 `G:\Codex\NeonRoguelike\project.godot`，手动试玩完整流程：WASD 移动、鼠标瞄准、按住鼠标左键射击、空格闪避；每间普通房清空后用鼠标选择一件奖励；挑战 Boss 后从胜负结算页点击重开或按 Enter，也可用 R 快速重开。记录阶段二三的实际观察，并据此更新 Gameplay Gate；没有完成试玩前不创建 final-playtest 或 Freeze 记录。
 
 ## Git 状态
 
-分支：`feature/first-playable`
-本状态文档更新前 HEAD：`7a67a11`
+分支：`master`
+本状态文档更新前 HEAD：`2665ee7`
 最近 Freeze：无
 最近 Tag：无
 
