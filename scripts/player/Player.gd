@@ -83,7 +83,7 @@ func take_damage(amount: float) -> void:
 		return
 
 	health = maxi(0, health - maxi(1, roundi(amount)))
-	modulate = Color.WHITE
+	modulate = Color(4.0, 0.55, 0.25, 1.0)
 	hit_flash_left = 0.12
 	health_changed.emit(health, max_health)
 	if health == 0:
