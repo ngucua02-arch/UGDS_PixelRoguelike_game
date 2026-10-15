@@ -38,7 +38,7 @@ func _physics_process(delta: float) -> void:
 			modulate = Color.WHITE
 
 	var movement := Input.get_vector("move_left", "move_right", "move_up", "move_down")
-	if not is_dead and Input.is_action_just_pressed("dodge") and dodge_cooldown_left == 0.0:
+	if not is_dead and Input.is_action_just_pressed("dodge") and dodge_cooldown_left == 0.0 and dodge_time_left <= 0.0:
 		_start_dodge(movement)
 
 	if is_dead:
