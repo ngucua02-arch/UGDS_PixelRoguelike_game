@@ -58,6 +58,7 @@ func _on_player_died() -> void:
 		return
 	run_ended = true
 	run_state = &"defeat"
+	_stop_combat()
 	result_label.text = "你被击败了\n按 R 重新开始"
 	result_label.add_theme_color_override("font_color", Color(1.0, 0.35, 0.48, 1.0))
 
@@ -167,10 +168,24 @@ func _on_boss_died() -> void:
 		return
 	run_ended = true
 	run_state = &"victory"
+	_stop_combat()
 	result_label.text = "Boss 已击败！\n按 R 重新开始"
 	result_label.add_theme_color_override("font_color", Color(0.35, 1.0, 0.85, 1.0))
 	boss_health_bar.hide()
 	boss_health_label.hide()
+
+
+func _stop_combat() -> void:
+	if is_instance_valid(player):
+		player.set("damage_enabled", false)
+		player.process_mode = Node.PROCESS_MODE_DISABLED
+	if is_instance_valid(room):
+		room.process_mode = Node.PROCESS_MODE_DISABLED
+		for child in room.get_children():
+			if child is Area2D and (child.collision_layer & 16) != 0:
+				child.set_deferred("monitoring", false)
+				child.set_deferred("monitorable", false)
+				child.queue_free()
 
 
 func _clear_player_projectiles() -> void:

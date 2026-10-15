@@ -64,7 +64,7 @@ func _physics_process(delta: float) -> void:
 			_state_time -= delta
 			if _state_time <= 0.0:
 				_update_aim()
-			_charge_direction = _aim_direction
+				_charge_direction = _aim_direction
 				_charge_hit_player = false
 				_enter_state(&"charge_warning", charge_telegraph_duration)
 		&"charge_warning":
