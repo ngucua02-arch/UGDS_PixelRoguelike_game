@@ -3,7 +3,6 @@ extends Node2D
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player/Player.tscn")
 const ROOM_SCENE: PackedScene = preload("res://scenes/rooms/Room.tscn")
 const ROOM_ENEMY_COUNTS: Array[int] = [2, 3, 4]
-const PLAYER_SPAWN := Vector2(576.0, 324.0)
 const REWARD_PLACEHOLDER_SECONDS: float = 1.25
 
 @onready var health_label: Label = $Overlay/HealthLabel
@@ -73,7 +72,7 @@ func _start_room(room_index: int) -> void:
 	if is_instance_valid(room):
 		room.queue_free()
 	player.velocity = Vector2.ZERO
-	player.global_position = PLAYER_SPAWN
+	player.global_position = get_viewport_rect().size * 0.5
 	room = ROOM_SCENE.instantiate()
 	room.call("configure", player, ROOM_ENEMY_COUNTS[current_room_index])
 	room.connect("room_cleared", Callable(self, "_on_room_cleared"))
