@@ -1,0 +1,7 @@
+# Godot generated editor/import cache
+.godot/
+.worktrees/
+
+# Exported builds
+/build/
+/dist/

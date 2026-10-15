@@ -1,0 +1,17 @@
+; Godot project configuration
+; Gameplay implementation has not started.
+
+config_version=5
+
+[application]
+
+config/name="Neon Roguelike Prototype"
+config/description="A top-down pixel-art roguelike prototype focused on room combat and item builds."
+run/main_scene=""
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/default_filters/use_nearest_mipmap_filter=false
+textures/canvas_textures/default_texture_filter=0
