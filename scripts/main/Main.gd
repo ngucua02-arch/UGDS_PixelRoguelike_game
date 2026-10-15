@@ -2,6 +2,7 @@ extends Node2D
 
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player/Player.tscn")
 const ROOM_SCENE: PackedScene = preload("res://scenes/rooms/Room.tscn")
+const BOSS_SCENE: PackedScene = preload("res://scenes/enemies/Boss.tscn")
 const HUD_SCENE: PackedScene = preload("res://scenes/ui/HUD.tscn")
 const ROOM_MELEE_COUNTS: Array[int] = [2, 2, 2]
 const ROOM_RANGED_COUNTS: Array[int] = [0, 1, 2]
@@ -19,6 +20,8 @@ const ITEM_POOL: Array[ItemData] = [
 @onready var health_label: Label = $Overlay/HealthLabel
 @onready var room_label: Label = $Overlay/RoomLabel
 @onready var result_label: Label = $Overlay/ResultLabel
+@onready var boss_health_bar: ProgressBar = $Overlay/BossHealthBar
+@onready var boss_health_label: Label = $Overlay/BossHealthLabel
 
 var player: CharacterBody2D
 var room: Node2D
@@ -98,10 +101,8 @@ func _on_item_chosen(item_index: int) -> void:
 	player.call("apply_item", selected_item)
 	reward_items.clear()
 	if current_room_index == ROOM_MELEE_COUNTS.size() - 1:
-		run_state = &"victory"
-		run_ended = true
-		result_label.text = "原型流程胜利！\n按 R 重新开始"
-		result_label.add_theme_color_override("font_color", Color(0.35, 1.0, 0.85, 1.0))
+		hud.call("hide_rewards")
+		_start_boss_room()
 		return
 	hud.call("hide_rewards")
 	player.process_mode = Node.PROCESS_MODE_INHERIT
@@ -123,6 +124,53 @@ func _start_room(room_index: int) -> void:
 	room.call("configure", player, ROOM_MELEE_COUNTS[current_room_index], ROOM_RANGED_COUNTS[current_room_index])
 	room.connect("room_cleared", Callable(self, "_on_room_cleared"))
 	add_child(room)
+	boss_health_bar.hide()
+	boss_health_label.hide()
+
+
+func _start_boss_room() -> void:
+	current_room_index = ROOM_MELEE_COUNTS.size()
+	run_state = &"boss"
+	result_label.text = ""
+	room_label.text = "最终战：霓虹守卫"
+	_clear_player_projectiles()
+	if is_instance_valid(room):
+		room.queue_free()
+	player.process_mode = Node.PROCESS_MODE_INHERIT
+	player.set("damage_enabled", true)
+	player.velocity = Vector2.ZERO
+	player.global_position = get_viewport_rect().size * 0.5
+	room = ROOM_SCENE.instantiate()
+	room.call("configure", player, 0, 0)
+	var boss := BOSS_SCENE.instantiate()
+	boss.position = Vector2(576, 210)
+	boss.call("set_target", player)
+	boss.died.connect(_on_boss_died)
+	boss.health_changed.connect(_on_boss_health_changed)
+	room.add_child(boss)
+	add_child(room)
+	boss_health_bar.max_value = 40.0
+	boss_health_bar.value = 40.0
+	boss_health_bar.show()
+	boss_health_label.text = "Boss：40 / 40"
+	boss_health_label.show()
+
+
+func _on_boss_health_changed(current: int, maximum: int) -> void:
+	boss_health_bar.max_value = maximum
+	boss_health_bar.value = current
+	boss_health_label.text = "Boss：%d / %d" % [current, maximum]
+
+
+func _on_boss_died() -> void:
+	if run_ended:
+		return
+	run_ended = true
+	run_state = &"victory"
+	result_label.text = "Boss 已击败！\n按 R 重新开始"
+	result_label.add_theme_color_override("font_color", Color(0.35, 1.0, 0.85, 1.0))
+	boss_health_bar.hide()
+	boss_health_label.hide()
 
 
 func _clear_player_projectiles() -> void:
