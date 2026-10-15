@@ -7,16 +7,16 @@
 - [x] Task 3：定义输入和玩家移动场景
 - [x] Task 4：加入瞄准射击和投射物
 - [x] Task 5：加入玩家生命与闪避
-- [ ] Task 6：创建基础房间与近战敌人
+- [x] Task 6：创建基础房间与近战敌人
 - [ ] Task 7：阶段一试玩与记录
-- [ ] Task 8：串联三间固定战斗房
-- [ ] Task 9：建立道具数据与首批效果
-- [ ] Task 10：奖励三选一界面
+- [x] Task 8：串联三间固定战斗房
+- [x] Task 9：建立道具数据与首批效果
+- [x] Task 10：奖励三选一界面
 - [ ] Task 11：阶段二试玩与记录
-- [ ] Task 12：加入第二种敌人
-- [ ] Task 13：加入 Boss 房与攻击模式
-- [ ] Task 14：完成结算与快速重开
-- [ ] Task 15：像素霓虹占位视觉整理
+- [x] Task 12：加入第二种敌人
+- [x] Task 13：加入 Boss 房与攻击模式
+- [x] Task 14：完成结算与快速重开（实现与独立审查完成；实际鼠标 / 键盘重开仍待试玩）
+- [x] Task 15：像素霓虹占位视觉整理（实现与独立审查完成；静态截图 WEAK PASS，不代表动态试玩）
 - [ ] Task 16：阶段三完整流程试玩
 - [ ] Task 17：按真实证据修复体验问题
 - [ ] Task 18：完成 Gameplay Gate 与状态记录
@@ -91,4 +91,20 @@ Task 2: complete (commits b673017..f6a7369, review clean).
 Task 3: complete (commit fd5645b; Godot parse/startup passed; independent review found no blockers; actual GUI play deferred to phase playtest).
 Task 4: complete (commits 7d97b2d..3cd28ef; editor scan/startup passed; independent review passed with room-bounds cleanup deferred for Task 6; actual combat deferred to phase playtest).
 Task 5: complete (commits cafaa7f..48e5e58; Godot scan/startup passed; independent review suggested an adjustable cooldown edge guard, fixed in 48e5e58; interactive play/damage connection deferred to Task6/7).
-Task 6: implementation committed; awaiting independent review (fixed arena walls and two melee enemies; Main connects player health/death and room-clear signals, with temporary Chinese result text and R restart; headless editor scan and 5-second startup passed; no GUI play performed; Task 8 owns projectile cleanup at room transitions).
+Task 6: complete (commit fac680a; Godot scan/startup passed; independent review clean; true player interaction remains to be demonstrated in Task7).
+Task 7: record created (commit 3f34388); not accepted because only an unattended visual launch was observed and no controlled gameplay encounter could be completed; three-run user play evidence remains pending.
+Task 8: complete (commits 910cf67 and f4369bd; editor/startup checks passed; independent review clean; reward timing remains a placeholder for Task 10).
+Task 9: complete (commit b273742; editor import/startup passed; independent review approved; actual gameplay effects deferred to phase 2 playtest).
+Task 10: complete (commits 8f95a65..69ae638; editor/startup passed; independent review P1 feedback fixed with damage_enabled guard and re-reviewed clean; GUI button/progression playtest pending).
+Task 12: complete (commit 5836f4b; editor/startup passed; independent review approved; ranged enemy telegraph and counterplay require actual gameplay review).
+Task 13: implementation complete (Boss room follows all three ordinary room rewards; 40 HP boss with warned five-shot fan and warned charge, independent HUD bar, one-shot win/death outcome; Godot editor scan and headless startup passed; no GUI play performed, so attack readability/counterplay remain for phase 3 playtest).
+
+Task 14: complete (HUD item-effect summary; Chinese victory/defeat panel with mouse and Enter restart; R retained; reward item_chosen contract retained; Godot editor scan and 180-frame runtime launch passed; independent code review complete; actual input and three consecutive restart interactions unverified).
+
+Task 15: complete (placeholder neon pixel visual pass; Godot editor scan and 120-frame runtime launch passed; `git diff --check` passed; independent code review complete; static screenshot reviewed as WEAK PASS for render only; no controlled input or gameplay verified).
+
+Task 11: phase record created at `docs/superpowers/phases/phase-2-room-rewards.md`; pending controlled keyboard/mouse play through three ordinary rooms; do not mark accepted.
+
+Task 16: phase record created at `docs/superpowers/phases/phase-3-complete-run.md`; pending controlled full-run play and restart; no duration/player observations available; do not mark accepted.
+
+Task 7 remains pending actual controlled encounters. Tasks 17 and 18 remain pending actual gameplay evidence. Gameplay Gate has not been executed; do not create final-playtest or Freeze without the required play evidence.
