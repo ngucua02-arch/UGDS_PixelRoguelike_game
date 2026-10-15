@@ -121,7 +121,7 @@ func apply_projectile_hit(target: Node2D, amount: float) -> void:
 	var death_centers: Array[Vector2] = []
 	_damage_enemy(target, amount, death_centers)
 	while not death_centers.is_empty():
-		var center := death_centers.pop_front()
+		var center: Vector2 = death_centers.pop_front()
 		if _death_explosion_radius <= 0.0 or _death_explosion_damage <= 0.0:
 			continue
 		for enemy in get_tree().get_nodes_in_group("room_enemies"):

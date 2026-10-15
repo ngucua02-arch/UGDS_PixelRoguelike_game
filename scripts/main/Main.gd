@@ -3,7 +3,8 @@ extends Node2D
 const PLAYER_SCENE: PackedScene = preload("res://scenes/player/Player.tscn")
 const ROOM_SCENE: PackedScene = preload("res://scenes/rooms/Room.tscn")
 const HUD_SCENE: PackedScene = preload("res://scenes/ui/HUD.tscn")
-const ROOM_ENEMY_COUNTS: Array[int] = [2, 3, 4]
+const ROOM_MELEE_COUNTS: Array[int] = [2, 2, 2]
+const ROOM_RANGED_COUNTS: Array[int] = [0, 1, 2]
 const ITEM_POOL: Array[ItemData] = [
 	preload("res://resources/items/triple_shot.tres"),
 	preload("res://resources/items/pierce.tres"),
@@ -96,7 +97,7 @@ func _on_item_chosen(item_index: int) -> void:
 	selected_items.append(selected_item)
 	player.call("apply_item", selected_item)
 	reward_items.clear()
-	if current_room_index == ROOM_ENEMY_COUNTS.size() - 1:
+	if current_room_index == ROOM_MELEE_COUNTS.size() - 1:
 		run_state = &"victory"
 		run_ended = true
 		result_label.text = "原型流程胜利！\n按 R 重新开始"
@@ -112,14 +113,14 @@ func _start_room(room_index: int) -> void:
 	current_room_index = room_index
 	run_state = &"combat"
 	result_label.text = ""
-	room_label.text = "房间：%d / %d" % [current_room_index + 1, ROOM_ENEMY_COUNTS.size()]
+	room_label.text = "房间：%d / %d" % [current_room_index + 1, ROOM_MELEE_COUNTS.size()]
 	_clear_player_projectiles()
 	if is_instance_valid(room):
 		room.queue_free()
 	player.velocity = Vector2.ZERO
 	player.global_position = get_viewport_rect().size * 0.5
 	room = ROOM_SCENE.instantiate()
-	room.call("configure", player, ROOM_ENEMY_COUNTS[current_room_index])
+	room.call("configure", player, ROOM_MELEE_COUNTS[current_room_index], ROOM_RANGED_COUNTS[current_room_index])
 	room.connect("room_cleared", Callable(self, "_on_room_cleared"))
 	add_child(room)
 

@@ -16,9 +16,21 @@ script = ExtResource("1_enemy")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_enemy")
 
-[node name="Body" type="Polygon2D" parent="."]
+[node name="MeleeBody" type="Polygon2D" parent="."]
 color = Color(1, 0.22, 0.38, 1)
 polygon = PackedVector2Array(0, -14, 12, -5, 12, 7, 0, 14, -12, 7, -12, -5)
+
+[node name="RangedBody" type="Polygon2D" parent="."]
+visible = false
+color = Color(0.2, 0.96, 1, 1)
+polygon = PackedVector2Array(0, -15, 8, -8, 15, 0, 8, 8, 0, 15, -8, 8, -15, 0, -8, -8)
+
+[node name="AttackTelegraph" type="Line2D" parent="."]
+visible = false
+z_index = -1
+width = 3.0
+default_color = Color(1, 0.68, 0.18, 0.85)
+points = PackedVector2Array(0, 0, 360, 0)
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 offset_left = -16.0
