@@ -72,15 +72,15 @@
 
 ### Task 3：定义输入和玩家移动场景
 
-**文件：**修改 `project.godot`；创建 `scenes/player/Player.tscn`、`scripts/player/Player.gd`
+**文件：**修改 `project.godot`、`scenes/main/Main.tscn`；创建 `scenes/player/Player.tscn`、`scripts/player/Player.gd`
 
 - 在 Input Map 中定义 `move_left/right/up/down`、`fire`、`dodge`、`restart`。
 - `move_*` 分别绑定 A/D/W/S，`fire` 绑定鼠标左键，`dodge` 绑定空格，`restart` 绑定 R。
 - 玩家场景使用 `CharacterBody2D` 根节点、碰撞形状和一个高对比度占位绘图；基础生命值为 5。
 - 使用归一化的 `Input.get_vector()` 结果移动；角色速度为可调导出参数，首版取 `240.0` 像素/秒。
-- 玩家朝向鼠标位置；移动不能因斜向输入超过轴向速度。
+- 将玩家实例加入主场景，位于游戏窗口可见区域中央；玩家朝向鼠标位置；移动不能因斜向输入超过轴向速度。
 
-**验收：**运行场景后可八方向移动；鼠标移动时角色朝向目标；玩家不会穿过房间碰撞边界（边界在 Task 6 接入后复核）。
+**验收：**运行主场景后可八方向移动；鼠标移动时角色朝向目标；此阶段尚无物理墙体，房间碰撞边界在 Task 6 接入后复核。
 
 ### Task 4：加入瞄准射击和投射物
 
