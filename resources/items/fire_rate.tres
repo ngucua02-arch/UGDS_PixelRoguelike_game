@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"fire_rate"
+display_name = "过载电容"
+description = "射速提升 25%。"
+effect_type = 3
+value_primary = 1.25

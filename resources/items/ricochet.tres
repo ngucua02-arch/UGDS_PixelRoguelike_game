@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ricochet"
+display_name = "弹射芯片"
+description = "命中后弹向 180 像素内最近的另一名敌人一次。"
+effect_type = 2
+value_primary = 180.0

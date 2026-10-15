@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"damage_speed"
+display_name = "重型弹头"
+description = "投射物伤害提升 50%，弹速降低 20%。"
+effect_type = 4
+value_primary = 1.5
+value_secondary = 0.8

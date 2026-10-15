@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"dodge_cooldown"
+display_name = "相位核心"
+description = "闪避冷却缩短 20%。"
+effect_type = 5
+value_primary = 0.8

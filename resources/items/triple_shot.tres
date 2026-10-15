@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"triple_shot"
+display_name = "三向棱镜"
+description = "每次射击向 -12°、0°、+12° 发射三枚弹丸，每枚伤害降低至 70%。"
+effect_type = 0
+value_primary = 0.7

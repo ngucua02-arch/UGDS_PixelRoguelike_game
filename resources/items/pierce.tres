@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"pierce"
+display_name = "穿透针"
+description = "每枚投射物可额外穿透 1 个敌人。"
+effect_type = 1
+value_primary = 1.0
