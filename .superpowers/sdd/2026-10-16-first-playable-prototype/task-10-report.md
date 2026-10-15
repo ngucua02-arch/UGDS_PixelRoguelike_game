@@ -19,3 +19,8 @@
 
 - 清理投射物使用 deferred 关闭 Area2D 监测，再 `queue_free()`，避免清房回调发生于物理信号期间时直接修改监测状态。
 - Room 在奖励时禁用处理，切房时旧 Room 被释放，新 Room 以默认继承处理模式创建；Player 恢复为 `PROCESS_MODE_INHERIT`。
+
+## 审查修正
+
+- Player 新增 `damage_enabled` 门闩，`take_damage()` 在门闩关闭时立即返回。Main 进入奖励阶段时关闭；前两房选择完成后重新打开；第三房胜利时保持关闭，防止独立伤害回调绕过节点处理冻结造成掉血。
+- 修正后重新运行 Godot 4.7.2 stable editor scan、120 帧 headless 主场景启动和 `git diff --check`，均通过。仍未进行 GUI 试玩。

@@ -63,6 +63,7 @@ func _on_room_cleared() -> void:
 		return
 	run_state = &"reward"
 	result_label.text = ""
+	player.set("damage_enabled", false)
 	_clear_player_projectiles()
 	player.process_mode = Node.PROCESS_MODE_DISABLED
 	if is_instance_valid(room):
@@ -103,6 +104,7 @@ func _on_item_chosen(item_index: int) -> void:
 		return
 	hud.call("hide_rewards")
 	player.process_mode = Node.PROCESS_MODE_INHERIT
+	player.set("damage_enabled", true)
 	_start_room(current_room_index + 1)
 
 

@@ -22,6 +22,7 @@ var dodge_time_left: float = 0.0
 var dodge_cooldown_left: float = 0.0
 var dodge_direction: Vector2 = Vector2.ZERO
 var is_dead: bool = false
+var damage_enabled: bool = true
 var _applied_item_ids: Dictionary = {}
 var _triple_shot: bool = false
 var _pierce_count: int = 0
@@ -73,7 +74,7 @@ func _process(delta: float) -> void:
 
 
 func take_damage(amount: float) -> void:
-	if is_dead or dodge_time_left > 0.0 or amount <= 0.0:
+	if not damage_enabled or is_dead or dodge_time_left > 0.0 or amount <= 0.0:
 		return
 
 	health = maxi(0, health - maxi(1, roundi(amount)))
