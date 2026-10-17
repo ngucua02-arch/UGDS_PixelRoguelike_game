@@ -2,7 +2,7 @@
 
 项目：霓虹 Roguelike 原型（暂定名）
 UGDS 版本：ugds-v1.0
-最后更新：2026-10-16
+最后更新：2026-10-18
 开发模式：Prototype（原型）
 当前里程碑：首个可玩核心循环
 当前阶段 / 工作单元：阶段 2–3 实现已完成，等待阶段试玩
@@ -19,6 +19,7 @@ UGDS 版本：ugds-v1.0
 - Task 14：加入中文胜负结算、道具效果摘要及鼠标按钮 / Enter / R 重开路径；独立代码审查已完成。
 - Task 15：整理像素霓虹占位视觉、阵营颜色和攻击预警可读性；独立代码审查已完成。
 - Task 15 后修正玩家受伤闪光；已整合至主分支 `master`（整合前 HEAD：`2665ee7`），功能 worktree 保留。
+- 修复用户截图中的 `body->get_space() is null`：玩家死亡时主流程曾在敌人物理帧内立即禁用整间 Room，另一个已排队的 Enemy 随后调用 `move_and_slide()` 时失去物理空间。现在将玩家与 Room 的 process mode 切换延迟至当前帧结束，同时立即关闭玩家伤害入口。无输入 600 帧复现路径在修复后未再产生该错误；提交 `d580a66`。
 - Godot 4.7.2 stable 编辑器扫描及主场景短时运行均有成功记录；窗口静态截图仅用于检查当前渲染帧。
 
 ## 当前状态与 Gate
@@ -41,7 +42,7 @@ UGDS 版本：ugds-v1.0
 
 - Godot 便携版：`G:\Codex\tools\Godot-4.7.2\Godot_v4.7.2-stable_win64.exe`
 - 当前 Godot 项目：`G:\Codex\NeonRoguelike\project.godot`
-- 当前分支：`master`；本状态文档更新前 HEAD：`2665ee7`（本次更新提交会推进 HEAD）。
+- 当前分支：`master`；本状态文档更新前 HEAD：`d580a66`（本次更新提交会推进 HEAD）。
 - 项目暂定名；原型目标时长及目标玩家画像仍待确认。
 
 ## 暂不开发
@@ -55,7 +56,7 @@ UGDS 版本：ugds-v1.0
 ## Git 状态
 
 分支：`master`
-本状态文档更新前 HEAD：`2665ee7`
+本状态文档更新前 HEAD：`d580a66`
 最近 Freeze：无
 最近 Tag：无
 

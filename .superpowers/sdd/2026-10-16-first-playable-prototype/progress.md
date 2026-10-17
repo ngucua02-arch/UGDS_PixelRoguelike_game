@@ -108,3 +108,5 @@ Task 11: phase record created at `docs/superpowers/phases/phase-2-room-rewards.m
 Task 16: phase record created at `docs/superpowers/phases/phase-3-complete-run.md`; pending controlled full-run play and restart; no duration/player observations available; do not mark accepted.
 
 Task 7 remains pending actual controlled encounters. Tasks 17 and 18 remain pending actual gameplay evidence. Gameplay Gate has not been executed; do not create final-playtest or Freeze without the required play evidence.
+
+User-reported runtime error follow-up (2026-10-18): reproduced `body->get_space() is null` at `Enemy.gd` movement after the player died during idle combat. `Main._stop_combat()` synchronously disabled the parent Room inside one enemy's physics callback; a sibling enemy already queued in the same physics frame then reached `move_and_slide()` after leaving its physics space. Commit `d580a66` defers Player/Room process-mode changes until frame end while disabling damage immediately. The same no-input 600-frame fixed-FPS runtime path exited 0 and its dedicated log contained no physics error. This technical fix does not satisfy Task17's controlled-play requirement.
