@@ -69,9 +69,9 @@ func _on_room_cleared() -> void:
 	run_state = &"reward"
 	player.set("damage_enabled", false)
 	_clear_player_projectiles()
-	player.process_mode = Node.PROCESS_MODE_DISABLED
+	player.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if is_instance_valid(room):
-		room.process_mode = Node.PROCESS_MODE_DISABLED
+		room.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	reward_items = _draw_reward_items()
 	hud.call("present_rewards", reward_items)
 
@@ -175,9 +175,9 @@ func _on_boss_died() -> void:
 func _stop_combat() -> void:
 	if is_instance_valid(player):
 		player.set("damage_enabled", false)
-		player.process_mode = Node.PROCESS_MODE_DISABLED
+		player.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 	if is_instance_valid(room):
-		room.process_mode = Node.PROCESS_MODE_DISABLED
+		room.set_deferred("process_mode", Node.PROCESS_MODE_DISABLED)
 		for child in room.get_children():
 			if child is Area2D and (child.collision_layer & 16) != 0:
 				child.set_deferred("monitoring", false)
