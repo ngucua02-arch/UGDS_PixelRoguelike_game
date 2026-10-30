@@ -11,6 +11,10 @@ var owner_player: Node2D
 var remaining_pierces: int = 0
 var ricochet_range: float = 0.0
 var has_ricocheted: bool = false
+var splash_radius: float = 0.0
+var splash_damage: float = 0.0
+var chain_range: float = 0.0
+var chain_damage: float = 0.0
 var hit_instance_ids: Dictionary = {}
 
 
@@ -18,7 +22,7 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
 
-func launch(launch_direction: Vector2, launch_damage: float, launch_speed: float, launch_owner: Node2D = null, pierces: int = 0, ricochet_distance: float = 0.0) -> void:
+func launch(launch_direction: Vector2, launch_damage: float, launch_speed: float, launch_owner: Node2D = null, pierces: int = 0, ricochet_distance: float = 0.0, launch_splash_radius: float = 0.0, launch_splash_damage: float = 0.0, launch_chain_range: float = 0.0, launch_chain_damage: float = 0.0) -> void:
 	direction = launch_direction.normalized()
 	if direction.is_zero_approx():
 		direction = Vector2.RIGHT
@@ -27,6 +31,10 @@ func launch(launch_direction: Vector2, launch_damage: float, launch_speed: float
 	owner_player = launch_owner
 	remaining_pierces = maxi(0, pierces)
 	ricochet_range = maxf(0.0, ricochet_distance)
+	splash_radius = maxf(0.0, launch_splash_radius)
+	splash_damage = maxf(0.0, launch_splash_damage)
+	chain_range = maxf(0.0, launch_chain_range)
+	chain_damage = maxf(0.0, launch_chain_damage)
 	rotation = direction.angle()
 
 
@@ -45,7 +53,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	hit_instance_ids[instance_id] = true
 	if is_instance_valid(owner_player) and owner_player.has_method("apply_projectile_hit"):
-		owner_player.call("apply_projectile_hit", body, damage)
+		owner_player.call("apply_projectile_hit", body, damage, splash_radius, splash_damage, chain_range, chain_damage)
 	else:
 		body.call("take_damage", damage)
 	if not has_ricocheted and ricochet_range > 0.0:

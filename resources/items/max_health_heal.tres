@@ -8,5 +8,6 @@ id = &"max_health_heal"
 display_name = "护盾电池"
 description = "最大生命 +1，获得时恢复 1 点生命。"
 effect_type = 6
+build_type = 3
 value_primary = 1.0
 value_secondary = 1.0

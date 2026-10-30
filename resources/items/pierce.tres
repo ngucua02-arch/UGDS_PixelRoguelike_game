@@ -8,4 +8,5 @@ id = &"pierce"
 display_name = "穿透针"
 description = "每枚投射物可额外穿透 1 个敌人。"
 effect_type = 1
+build_type = 1
 value_primary = 1.0

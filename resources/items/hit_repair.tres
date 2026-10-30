@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"hit_repair"
+display_name = "纳米修复匣"
+description = "每命中 12 次恢复 1 点生命。"
+effect_type = 12
+build_type = 3
+value_primary = 12.0

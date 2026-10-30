@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"explosive_rounds"
+display_name = "震荡弹壳"
+description = "命中时对 52 像素内其他敌人造成范围伤害。"
+effect_type = 10
+build_type = 2
+value_primary = 52.0
+value_secondary = 0.7

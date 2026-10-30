@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"fifth_shot_crit"
+display_name = "破甲计数器"
+description = "每第 5 次射击造成 2.5 倍伤害。"
+effect_type = 9
+build_type = 1
+value_primary = 2.5

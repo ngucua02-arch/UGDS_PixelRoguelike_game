@@ -8,4 +8,5 @@ id = &"ricochet"
 display_name = "弹射芯片"
 description = "命中后弹向 180 像素内最近的另一名敌人一次。"
 effect_type = 2
+build_type = 2
 value_primary = 180.0

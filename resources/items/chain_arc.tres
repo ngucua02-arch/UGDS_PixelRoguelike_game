@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"chain_arc"
+display_name = "电弧分流器"
+description = "命中时电击 120 像素内最近的一名其他敌人。"
+effect_type = 11
+build_type = 2
+value_primary = 120.0
+value_secondary = 0.7

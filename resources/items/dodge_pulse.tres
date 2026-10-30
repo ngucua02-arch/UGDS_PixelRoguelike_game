@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/items/ItemData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"dodge_pulse"
+display_name = "相位回震器"
+description = "闪避结束时，对 68 像素内敌人造成 1 点伤害。"
+effect_type = 13
+build_type = 3
+value_primary = 68.0
+value_secondary = 1.0

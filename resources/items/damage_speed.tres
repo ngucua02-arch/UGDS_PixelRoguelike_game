@@ -8,5 +8,6 @@ id = &"damage_speed"
 display_name = "重型弹头"
 description = "投射物伤害提升 50%，弹速降低 20%。"
 effect_type = 4
+build_type = 1
 value_primary = 1.5
 value_secondary = 0.8

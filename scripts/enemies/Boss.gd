@@ -22,8 +22,12 @@ var _charge_direction: Vector2 = Vector2.RIGHT
 var _charge_hit_player: bool = false
 var _hit_flash_left: float = 0.0
 
-@onready var body_visual: Polygon2D = $Body
+@onready var character_sprite: Sprite2D = $CharacterSprite
 @onready var attack_telegraph: Line2D = $AttackTelegraph
+@onready var fan_telegraph: Line2D = $FanTelegraph
+
+var _visual_clock: float = 0.0
+var _base_sprite_scale: Vector2 = Vector2.ONE
 
 
 func _ready() -> void:
@@ -31,7 +35,9 @@ func _ready() -> void:
 	health = max_health
 	_state_time = 0.65
 	add_to_group("room_enemies")
+	_base_sprite_scale = character_sprite.scale
 	attack_telegraph.visible = false
+	fan_telegraph.visible = _attack_state == &"fan_warning"
 	health_changed.emit(ceili(health), ceili(max_health))
 
 
@@ -45,9 +51,10 @@ func _physics_process(delta: float) -> void:
 	if _hit_flash_left > 0.0:
 		_hit_flash_left = maxf(0.0, _hit_flash_left - delta)
 		if _hit_flash_left == 0.0:
-			body_visual.color = Color(0.92, 0.15, 0.68, 1.0)
+				character_sprite.modulate = Color.WHITE
 	if not is_instance_valid(target) or target.get("is_dead") == true:
 		velocity = Vector2.ZERO
+		_update_boss_visual(delta)
 		move_and_slide()
 		return
 	match _attack_state:
@@ -56,6 +63,7 @@ func _physics_process(delta: float) -> void:
 			_state_time -= delta
 			_update_aim()
 			_update_telegraph(280.0, Color(1.0, 0.3, 0.55, 0.9))
+			_update_fan_telegraph()
 			if _state_time <= 0.0:
 				_fire_fan()
 				_enter_state(&"fan_recovery", 0.95)
@@ -81,12 +89,14 @@ func _physics_process(delta: float) -> void:
 			if get_slide_collision_count() > 0 or _state_time <= 0.0:
 				velocity = Vector2.ZERO
 				_enter_state(&"charge_recovery", 1.0)
+			_update_boss_visual(delta)
 			return
 		&"charge_recovery":
 			velocity = Vector2.ZERO
 			_state_time -= delta
 			if _state_time <= 0.0:
 				_enter_state(&"fan_warning", 0.65)
+	_update_boss_visual(delta)
 	move_and_slide()
 
 
@@ -100,6 +110,7 @@ func _enter_state(state: StringName, duration: float) -> void:
 	_attack_state = state
 	_state_time = maxf(0.0, duration)
 	attack_telegraph.visible = state == &"fan_warning" or state == &"charge_warning"
+	fan_telegraph.visible = state == &"fan_warning"
 
 
 func _update_telegraph(length: float, color: Color) -> void:
@@ -107,6 +118,40 @@ func _update_telegraph(length: float, color: Color) -> void:
 	attack_telegraph.default_color = color
 	var direction := _aim_direction if _attack_state == &"fan_warning" else _charge_direction
 	attack_telegraph.points = PackedVector2Array([Vector2.ZERO, direction * length])
+
+
+func _update_fan_telegraph() -> void:
+	var points := PackedVector2Array()
+	for angle_degrees in [-40.0, -20.0, 20.0, 40.0]:
+		points.append(Vector2.ZERO)
+		points.append(_aim_direction.rotated(deg_to_rad(angle_degrees)) * 280.0)
+	fan_telegraph.points = points
+
+
+func _update_boss_visual(delta: float) -> void:
+	_visual_clock += delta
+	var facing := _aim_direction
+	if _attack_state in [&"charge_warning", &"charging", &"charge_recovery"]:
+		facing = _charge_direction
+	var target_rotation := facing.angle() - PI * 0.5
+	var pose_scale := Vector2.ONE
+	var pulse := 1.0 + sin(_visual_clock * 2.8) * 0.025
+	var bob := sin(_visual_clock * 2.8) * 1.5
+	match _attack_state:
+		&"fan_warning":
+			pulse += absf(sin(_visual_clock * 17.0)) * 0.055
+		&"charge_warning":
+			pulse += absf(sin(_visual_clock * 22.0)) * 0.04
+			pose_scale = Vector2(1.08, 0.88)
+		&"charging":
+			pose_scale = Vector2(0.9, 1.2)
+			bob = 0.0
+		&"fan_recovery", &"charge_recovery":
+			pose_scale = Vector2(1.08, 0.94)
+			bob = sin(_visual_clock * 18.0) * 1.0
+	character_sprite.rotation = lerp_angle(character_sprite.rotation, target_rotation, clampf(delta * 12.0, 0.0, 1.0))
+	character_sprite.scale = character_sprite.scale.lerp(_base_sprite_scale * pose_scale * pulse, clampf(delta * 10.0, 0.0, 1.0))
+	character_sprite.position.y = bob
 
 
 func _fire_fan() -> void:
@@ -134,7 +179,7 @@ func take_damage(amount: float) -> void:
 		return
 	health = maxf(0.0, health - amount)
 	health_changed.emit(ceili(health), ceili(max_health))
-	body_visual.color = Color.WHITE
+	character_sprite.modulate = Color(2.7, 2.7, 3.0, 1.0)
 	_hit_flash_left = 0.1
 	if health <= 0.0:
 		is_dead = true

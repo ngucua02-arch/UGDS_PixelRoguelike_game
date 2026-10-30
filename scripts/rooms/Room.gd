@@ -12,14 +12,12 @@ const EXTRA_ENEMY_POSITIONS: Array[Vector2] = [
 var player: Node2D
 var living_enemies: int = 0
 var has_cleared: bool = false
-var configured_melee_count: int = 2
-var configured_ranged_count: int = 0
+var configured_archetypes: PackedInt32Array = PackedInt32Array([0, 0])
 
 
-func configure(player_node: Node2D, melee_count: int = 2, ranged_count: int = 0) -> void:
+func configure(player_node: Node2D, archetypes: PackedInt32Array = PackedInt32Array([0, 0])) -> void:
 	player = player_node
-	configured_melee_count = clampi(melee_count, 0, 5)
-	configured_ranged_count = clampi(ranged_count, 0, 5 - configured_melee_count)
+	configured_archetypes = archetypes.slice(0, 5)
 
 
 func _ready() -> void:
@@ -38,25 +36,26 @@ func _ready() -> void:
 func _ensure_enemy_composition() -> void:
 	var enemies: Array[Node] = []
 	_collect_enemies(self, enemies)
-	var total_count := configured_melee_count + configured_ranged_count
+	var total_count := configured_archetypes.size()
 	while enemies.size() < total_count:
 		var enemy := ENEMY_SCENE.instantiate()
 		var spawn_index := enemies.size() - 2
 		if spawn_index < 0 or spawn_index >= EXTRA_ENEMY_POSITIONS.size():
 			break
 		enemy.position = EXTRA_ENEMY_POSITIONS[spawn_index]
-		enemy.set("is_ranged", enemies.size() >= configured_melee_count)
 		add_child(enemy)
 		enemies.append(enemy)
 	while enemies.size() > total_count:
 		enemies.pop_back().queue_free()
 	for index in range(enemies.size()):
-		enemies[index].call("set_ranged_mode", index >= configured_melee_count)
+		enemies[index].call("configure_archetype", configured_archetypes[index])
 
 
 func _collect_enemies(parent: Node, result: Array[Node]) -> void:
 	for child in parent.get_children():
-		if child.is_in_group("room_enemies"):
+		# Bosses share this group so room-wide item effects can hit them, but
+		# only regular enemies participate in room composition and clear counts.
+		if child.is_in_group("room_enemies") and child.has_method("set_ranged_mode"):
 			result.append(child)
 		else:
 			_collect_enemies(child, result)

@@ -8,4 +8,5 @@ id = &"dodge_cooldown"
 display_name = "相位核心"
 description = "闪避冷却缩短 20%。"
 effect_type = 5
+build_type = 3
 value_primary = 0.8

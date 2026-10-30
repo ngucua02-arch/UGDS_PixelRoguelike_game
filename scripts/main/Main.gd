@@ -4,8 +4,8 @@ const PLAYER_SCENE: PackedScene = preload("res://scenes/player/Player.tscn")
 const ROOM_SCENE: PackedScene = preload("res://scenes/rooms/Room.tscn")
 const BOSS_SCENE: PackedScene = preload("res://scenes/enemies/Boss.tscn")
 const HUD_SCENE: PackedScene = preload("res://scenes/ui/HUD.tscn")
-const ROOM_MELEE_COUNTS: Array[int] = [2, 2, 2]
-const ROOM_RANGED_COUNTS: Array[int] = [0, 1, 2]
+const ItemDataScript = preload("res://resources/items/ItemData.gd")
+const ROOM_COMPOSITIONS: Array = [[0, 0], [0, 1, 2, 3], [0, 1, 1, 2, 3]]
 const ITEM_POOL: Array[ItemData] = [
 	preload("res://resources/items/triple_shot.tres"),
 	preload("res://resources/items/pierce.tres"),
@@ -15,6 +15,12 @@ const ITEM_POOL: Array[ItemData] = [
 	preload("res://resources/items/dodge_cooldown.tres"),
 	preload("res://resources/items/max_health_heal.tres"),
 	preload("res://resources/items/death_explosion.tres"),
+	preload("res://resources/items/fourth_shot_volley.tres"),
+	preload("res://resources/items/fifth_shot_crit.tres"),
+	preload("res://resources/items/explosive_rounds.tres"),
+	preload("res://resources/items/chain_arc.tres"),
+	preload("res://resources/items/hit_repair.tres"),
+	preload("res://resources/items/dodge_pulse.tres"),
 ]
 
 @onready var health_label: Label = $Overlay/HealthLabel
@@ -86,10 +92,19 @@ func _draw_reward_items() -> Array[ItemData]:
 				break
 		if not already_owned:
 			available_items.append(item)
-	available_items.shuffle()
 	var choices: Array[ItemData] = []
-	for index in range(mini(3, available_items.size())):
-		choices.append(available_items[index])
+	var preferred_type := ItemDataScript.preferred_build_type(selected_items)
+	if preferred_type >= 0:
+		for item in available_items:
+			if int(item.build_type) == preferred_type:
+				choices.append(item)
+				available_items.erase(item)
+				break
+	available_items.shuffle()
+	var target_count := mini(3, choices.size() + available_items.size())
+	while choices.size() < target_count:
+		choices.append(available_items.pop_back())
+	choices.shuffle()
 	return choices
 
 
@@ -101,7 +116,7 @@ func _on_item_chosen(item_index: int) -> void:
 	player.call("apply_item", selected_item)
 	hud.call("set_item_summary", selected_items)
 	reward_items.clear()
-	if current_room_index == ROOM_MELEE_COUNTS.size() - 1:
+	if current_room_index == ROOM_COMPOSITIONS.size() - 1:
 		hud.call("hide_rewards")
 		_start_boss_room()
 		return
@@ -114,14 +129,14 @@ func _on_item_chosen(item_index: int) -> void:
 func _start_room(room_index: int) -> void:
 	current_room_index = room_index
 	run_state = &"combat"
-	room_label.text = "房间：%d / %d" % [current_room_index + 1, ROOM_MELEE_COUNTS.size()]
+	room_label.text = "房间：%d / %d" % [current_room_index + 1, ROOM_COMPOSITIONS.size()]
 	_clear_player_projectiles()
 	if is_instance_valid(room):
 		room.queue_free()
 	player.velocity = Vector2.ZERO
 	player.global_position = get_viewport_rect().size * 0.5
 	room = ROOM_SCENE.instantiate()
-	room.call("configure", player, ROOM_MELEE_COUNTS[current_room_index], ROOM_RANGED_COUNTS[current_room_index])
+	room.call("configure", player, PackedInt32Array(ROOM_COMPOSITIONS[current_room_index]))
 	room.connect("room_cleared", Callable(self, "_on_room_cleared"))
 	add_child(room)
 	boss_health_bar.hide()
@@ -129,7 +144,7 @@ func _start_room(room_index: int) -> void:
 
 
 func _start_boss_room() -> void:
-	current_room_index = ROOM_MELEE_COUNTS.size()
+	current_room_index = ROOM_COMPOSITIONS.size()
 	run_state = &"boss"
 	room_label.text = "最终战：霓虹守卫"
 	_clear_player_projectiles()
@@ -140,7 +155,7 @@ func _start_boss_room() -> void:
 	player.velocity = Vector2.ZERO
 	player.global_position = get_viewport_rect().size * 0.5
 	room = ROOM_SCENE.instantiate()
-	room.call("configure", player, 0, 0)
+	room.call("configure", player, PackedInt32Array())
 	var boss := BOSS_SCENE.instantiate()
 	boss.position = Vector2(576, 210)
 	boss.call("set_target", player)

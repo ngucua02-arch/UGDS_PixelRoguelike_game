@@ -8,5 +8,6 @@ id = &"death_explosion"
 display_name = "余烬回路"
 description = "击杀敌人时，以 48 像素半径造成 1 点范围伤害。"
 effect_type = 7
+build_type = 2
 value_primary = 48.0
 value_secondary = 1.0
