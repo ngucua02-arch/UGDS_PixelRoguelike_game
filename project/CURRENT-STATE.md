@@ -18,7 +18,7 @@ UGDS 版本：ugds-v1.0
 - 2026-10-29 垂直切片整合试玩通过：首领与两类预警清楚；构筑摘要不挡战斗，Tab 切换顺手，奖励详情易比较。
 - Windows x86_64 试玩包已导出并打包为 `dist/NeonRoguelike-Windows-试玩版.zip`；用户独立运行确认待完成。
 - 2026-10-31 用户确认独立 EXE 可以正常打开并进入游戏；Windows 试玩包通过实际启动确认。
-- 2026-10-31 按玩家要求建立一阶段冻结快照，计划标签为 `v0.1.0-vertical-slice`；冻结清单见 `docs/releases/freeze-v0.1.0-vertical-slice.md`。本地提交与 GitHub 同步完成后，开始设计路线与事件系统。
+- 2026-10-31 一阶段冻结完成：提交 `56a7d91`，标签 `v0.1.0-vertical-slice` 已推送到 GitHub `main`；冻结清单见 `docs/releases/freeze-v0.1.0-vertical-slice.md`。下一步设计路线与事件系统。
 
 - 玩家在 2026-10-28 回报整体流程体验可以、重开正常、暂无明显体验阻碍，并批准进入下一阶段。核心原型决定为 GO；胜负结果和单局用时未提供。
 - 首领战视觉切片已获玩家验收：首领醒目、扇形与冲撞预警好判断、受击和蓄力动作清楚。未提出机制或难度改动要求。
@@ -51,7 +51,7 @@ UGDS 版本：ugds-v1.0
 - **Visual Gate：首领战视觉通过玩家验收。** 首领、扇形与冲撞预警、受击和蓄力表现均获认可。
 - **Vertical Slice Gate：玩家确认通过。** 首领战可读性与 HUD 构筑摘要均已通过本轮反馈。
 - **Release Gate：试玩包通过启动确认。** 玩家确认独立 EXE 可正常启动并进入游戏。
-- **Freeze Gate：本地提交、标签及 GitHub 推送进行中。** 目标标签为 `v0.1.0-vertical-slice`，远端默认分支为 `main`。
+- **Freeze Gate：通过。** 冻结提交 `56a7d91` 和标签 `v0.1.0-vertical-slice` 已同步到 GitHub `main`。
 
 ## 主要待验证事项
 
@@ -77,11 +77,11 @@ UGDS 版本：ugds-v1.0
 
 ## Git 状态
 
-分支：`master`
-HEAD：`43259ac`（当前工作区有未提交修改）
-最近 Freeze：无
-最近 Tag：无
+本地分支：`master`（跟踪 `origin/main`）
+Freeze 提交：`56a7d91`
+最近 Freeze：`v0.1.0-vertical-slice`
+最近 Tag：`v0.1.0-vertical-slice`
 
 ## 恢复说明
 
-新会话继续前，阅读 `PROJECT-BOOTSTRAP.md`、`GAME-VISION.md`、`CORE-LOOP.md`、本文件和 `docs/superpowers/plans/2026-10-16-first-playable-prototype.md`。当前代码实现已进入等待玩家试玩阶段；不要把 headless 启动或静态截图当作 Gameplay Gate 证据。
+新会话继续前，阅读本文件、冻结记录 `docs/releases/freeze-v0.1.0-vertical-slice.md`、`GAME-VISION.md`、`CORE-LOOP.md` 和现有原型计划。下一阶段从 `v0.1.0-vertical-slice` 开始设计路线与事件系统；冻结标签保持不变。
