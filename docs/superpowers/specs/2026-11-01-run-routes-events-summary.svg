@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">单局路线与事件系统：快速审阅图</title>
+  <desc id="desc">每局三层路线选择，稳妥路线提供事件和标准战斗，高压路线提供强化战斗和四选一奖励；所有路线最终保持三场战斗后进入首领战。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#090d1c"/><stop offset="1" stop-color="#11172a"/>
+    </linearGradient>
+    <linearGradient id="safe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0c2833"/><stop offset="1" stop-color="#10202f"/>
+    </linearGradient>
+    <linearGradient id="risk" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#32152b"/><stop offset="1" stop-color="#251626"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrow-cyan" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M1 1 L10 6 L1 11" fill="none" stroke="#40e8e6" stroke-width="2"/>
+    </marker>
+    <marker id="arrow-pink" markerWidth="12" markerHeight="12" refX="9" refY="6" orient="auto">
+      <path d="M1 1 L10 6 L1 11" fill="none" stroke="#ff5e9b" stroke-width="2"/>
+    </marker>
+    <style>
+      text { font-family: "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; }
+      .title { fill:#f5f7ff; font-size:42px; font-weight:700; }
+      .subtitle { fill:#aab5d0; font-size:19px; }
+      .section { fill:#f5f7ff; font-size:22px; font-weight:700; }
+      .body { fill:#d6def2; font-size:18px; }
+      .small { fill:#aeb9d4; font-size:15px; }
+      .safe-title { fill:#54eee1; font-size:22px; font-weight:700; }
+      .risk-title { fill:#ff77aa; font-size:22px; font-weight:700; }
+      .tag { fill:#0b1020; font-size:15px; font-weight:700; }
+    </style>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <path d="M0 145H1600" stroke="#26314b" stroke-width="2"/>
+  <circle cx="1490" cy="78" r="44" fill="#132332" stroke="#24dedb" stroke-width="2" opacity=".8"/>
+  <circle cx="1490" cy="78" r="29" fill="none" stroke="#ff4c93" stroke-width="2" opacity=".8"/>
+  <text x="1490" y="87" text-anchor="middle" fill="#eaf6ff" font-size="24" font-weight="700">×3</text>
+
+  <text x="64" y="75" class="title">单局路线与事件系统</text>
+  <text x="66" y="113" class="subtitle">快速审阅图 · 基线 v0.1.0 垂直切片</text>
+  <rect x="64" y="164" width="1472" height="82" rx="16" fill="#111a2a" stroke="#36425e" stroke-width="2"/>
+  <text x="800" y="199" text-anchor="middle" class="section">固定单局骨架：路线选择 × 3 → 普通战斗 × 3 → 首领</text>
+  <text x="800" y="228" text-anchor="middle" class="small">路线改变风险与收益，不会跳过战斗；首领与重开流程沿用当前版本</text>
+
+  <rect x="64" y="278" width="1472" height="474" rx="22" fill="#0d1322" stroke="#2a3650" stroke-width="2"/>
+  <rect x="92" y="302" width="222" height="54" rx="12" fill="#182139" stroke="#53617f" stroke-width="2"/>
+  <text x="203" y="337" text-anchor="middle" class="section">每层路线选择</text>
+  <text x="342" y="337" class="small">同一结构重复 3 层</text>
+
+  <path d="M317 518 C350 518 352 436 390 436" fill="none" stroke="#40e8e6" stroke-width="4" marker-end="url(#arrow-cyan)"/>
+  <path d="M317 518 C350 518 352 616 390 616" fill="none" stroke="#ff5e9b" stroke-width="4" marker-end="url(#arrow-pink)"/>
+
+  <rect x="400" y="382" width="500" height="168" rx="18" fill="url(#safe)" stroke="#40e8e6" stroke-width="2"/>
+  <text x="430" y="421" class="safe-title">稳妥路线 · 事件 + 标准编队</text>
+  <text x="430" y="460" class="body">事件二选一：</text>
+  <text x="455" y="491" class="body">修复：恢复 1 点生命 → 战斗后照常获得奖励</text>
+  <text x="455" y="522" class="body">补给：从 2 件道具中选 1 件 → 替代本场战斗奖励</text>
+
+  <rect x="400" y="568" width="500" height="106" rx="18" fill="url(#risk)" stroke="#ff5e9b" stroke-width="2"/>
+  <text x="430" y="608" class="risk-title">高压路线 · 强化编队</text>
+  <text x="430" y="642" class="body">跳过事件，敌人更难；胜利后 4 选 1 道具</text>
+
+  <path d="M904 466 C936 466 936 500 968 500" fill="none" stroke="#40e8e6" stroke-width="4" marker-end="url(#arrow-cyan)"/>
+  <path d="M904 620 C936 620 936 520 968 520" fill="none" stroke="#ff5e9b" stroke-width="4" marker-end="url(#arrow-pink)"/>
+
+  <rect x="980" y="424" width="238" height="154" rx="18" fill="#141c30" stroke="#73819f" stroke-width="2"/>
+  <text x="1099" y="464" text-anchor="middle" class="section">本层战斗</text>
+  <text x="1099" y="501" text-anchor="middle" class="body">标准 / 强化</text>
+  <text x="1099" y="534" text-anchor="middle" class="small">沿用现有敌人类型</text>
+  <text x="1099" y="558" text-anchor="middle" class="small">不新增敌人原型</text>
+
+  <path d="M1221 501H1280" fill="none" stroke="#40e8e6" stroke-width="4" marker-end="url(#arrow-cyan)"/>
+  <rect x="1294" y="424" width="202" height="154" rx="18" fill="#171b2d" stroke="#f0b84a" stroke-width="2"/>
+  <text x="1395" y="464" text-anchor="middle" fill="#ffd574" font-size="22" font-weight="700">进入下一层</text>
+  <text x="1395" y="501" text-anchor="middle" class="body">第 1、2 层</text>
+  <text x="1395" y="534" text-anchor="middle" class="small">继续路线选择</text>
+  <text x="1395" y="558" text-anchor="middle" class="small">第 3 层后挑战首领</text>
+
+  <rect x="64" y="778" width="1472" height="164" rx="20" fill="#151a2c" stroke="#5d466f" stroke-width="2"/>
+  <text x="96" y="820" fill="#e8c6ff" font-size="21" font-weight="700">请快速判断这两条规则</text>
+  <circle cx="107" cy="861" r="15" fill="#40e8e6"/><text x="107" y="867" text-anchor="middle" class="tag">1</text>
+  <text x="137" y="867" class="body">补给道具会替代本场战斗奖励；修复则保留普通奖励。</text>
+  <circle cx="107" cy="906" r="15" fill="#ff5e9b"/><text x="107" y="912" text-anchor="middle" class="tag">2</text>
+  <text x="137" y="912" class="body">高压编队更难，奖励扩大为 4 选 1；每局仍固定三战后打首领。</text>
+  <text x="1504" y="968" text-anchor="end" class="small">本阶段不做：永久成长、货币商店、程序化地图、新敌人与新首领</text>
+</svg>
